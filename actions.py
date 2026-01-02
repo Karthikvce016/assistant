@@ -31,9 +31,24 @@ def open_target(command):
     return None
 
 def search_youtube(command):
-    query = command.replace("search youtube", "").strip()
-    if not query:
+    q = command.replace("search youtube", "").strip()
+    if not q:
         return None
-    url = "https://www.youtube.com/results?search_query=" + query.replace(" ", "+")
+    url = "https://www.youtube.com/results?search_query=" + q.replace(" ", "+")
     webbrowser.open(url)
-    return f"Searching YouTube for {query}"
+    return f"Searching YouTube for {q}"
+
+def spotify_control(action):
+    if action == "play":
+        s = 'tell application "Spotify" to play'
+    elif action == "pause":
+        s = 'tell application "Spotify" to pause'
+    elif action == "next":
+        s = 'tell application "Spotify" to next track'
+    elif action == "previous":
+        s = 'tell application "Spotify" to previous track'
+    else:
+        return None
+
+    subprocess.Popen(["osascript", "-e", s])
+    return f"Spotify {action}"
